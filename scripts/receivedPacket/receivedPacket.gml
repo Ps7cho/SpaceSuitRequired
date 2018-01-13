@@ -18,8 +18,12 @@ switch(msgid){
 		
 		if(ds_map_exists(clientmap, string(client))){// [note] check if its your position
 			var clientObject = clientmap[? string(client)];
-			clientObject.x = lerp(x, xx, 1);
-			clientObject.y = lerp(y, yy, 1);
+			clientObject.tim = 0;
+			clientObject.prx = clientObject.x;
+			clientObject.pry = clientObject.y;
+			clientObject.tox = xx;
+			clientObject.toy = yy;
+			
 			}else{
 				var l = instance_create_layer(xx, yy, "Instances_1", object_Character_1);
 				clientmap[? string(client)] =l;
