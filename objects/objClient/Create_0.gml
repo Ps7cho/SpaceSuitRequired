@@ -2,8 +2,7 @@
 var type = network_socket_tcp;
 var ipaddress = "dev-test.3ragaming.com";
 var ipaddres = "104.187.119.7";
-var juice = "45.29.167.205";
-var localhost = "192.168.1.65"
+var localhost = "192.168.1.65";
 var port = 6112;
 
 socket = network_create_socket(type);
