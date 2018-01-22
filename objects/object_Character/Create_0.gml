@@ -1,6 +1,7 @@
 /// @description Insert description here
 // You can write your code in this editor
 name = "";
+CharacterID = -1;
 
 Health = 100;
 unitMaxHealth = Health;
