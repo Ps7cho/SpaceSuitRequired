@@ -6,7 +6,7 @@ var localhost = "192.168.1.65";
 var port = 6112;
 
 socket = network_create_socket(type);
-isConnected = network_connect(socket, localhost, port);
+isConnected = network_connect(socket, ipaddres, port);
 
 
 var size = 256;
@@ -39,6 +39,7 @@ enum networkEvents {
 	a,
 	shoot,
 	hit,
+	bullet,
 	position,
 	connect,
 	disconnect

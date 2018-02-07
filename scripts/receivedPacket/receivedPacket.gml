@@ -37,6 +37,8 @@ switch(msgid){
 		var yy = buffer_read(buffer, buffer_u16);
 		pointx = buffer_read(buffer, buffer_u16);
 		pointy = buffer_read(buffer, buffer_u16);
+		var bullet = buffer_read(buffer, buffer_u16);
+
 		
 		var move_speed_this_frame = bulletSpeed*global.seconds_passed;
 
@@ -44,20 +46,34 @@ switch(msgid){
 		with slug{
 			image_angle = point_direction(xx, yy, other.pointx, other.pointy);
 			move_towards_point(other.pointx,other.pointy,move_speed_this_frame)
+			ID = client;
+			bulletID = bullet;
 		}
 		
 	break;
 	
-		case networkEvents.hit:
+	case networkEvents.hit:
 	
 		var client = buffer_read(buffer, buffer_u16);
 		var Health = buffer_read(buffer, buffer_u16);
 		
-		var clientObject = clientmap[? string(client)];
-		clientObject.Health = Health;		
+		var character = clientmap[? string(client)];
+		character.Health = Health;		
+		character.CharacterID = client;
 		
 	break;
+	
+	case networkEvents.bullet:
 		
+		var bullet = buffer_read(buffer, buffer_u16);
+		with objBullet{
+			if bulletID = bullet{
+				instance_destroy();
+			}
+		}
+		
+	break;
+	
 	case networkEvents.connect:
 		var 
 		client = buffer_read(buffer, buffer_u16),
@@ -71,6 +87,7 @@ switch(msgid){
 			MyID = client;
 		}else{
 				var l = instance_create_layer(startx, starty, "Instances_1", object_Character_1);
+				l.CharacterID = client;
 				clientmap[? string(client)] =l;
 			}
 	break;
