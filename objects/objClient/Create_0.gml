@@ -28,6 +28,7 @@ debug = true;
 alarm[0] = 60;
 shooting = false;
 bulletSpeed = 4000;
+buildmode = false;
 
 
 //network events as enumerators
@@ -41,6 +42,7 @@ enum networkEvents {
 	hit,
 	bullet,
 	position,
+	building,
 	connect,
 	disconnect
 }

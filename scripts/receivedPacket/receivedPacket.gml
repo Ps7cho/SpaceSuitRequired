@@ -74,6 +74,17 @@ switch(msgid){
 		
 	break;
 	
+	case networkEvents.building:
+		
+		var building = buffer_read(buffer, buffer_u8);
+		x_pos = buffer_read(buffer, buffer_u16);
+		y_pos = buffer_read(buffer, buffer_u16);
+		
+		instance_create_layer(x_pos,y_pos,"instances_1",objBuilding);
+	
+	break;
+
+	
 	case networkEvents.connect:
 		var 
 		client = buffer_read(buffer, buffer_u16),

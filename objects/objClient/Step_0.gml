@@ -2,11 +2,43 @@
 
 global.seconds_passed = delta_time/1000000;
 
-
-if mouse_check_button_pressed(mb_left){
-		shooting = true;
-		alarm[1] = 1;
+if !buildmode{
+	cursor_sprite = -1
+	if mouse_check_button_pressed(mb_left){
+			shooting = true;
+			alarm[1] = 1;
+	}
+}else{
+	with (Test){
+		var space = place_empty(mouse_x,mouse_y);
+	}
+	if space {
+		cursor_sprite = sprBuidlingCheck;
+	}else{
+		cursor_sprite = sprBuidlingCheck1;
+	}
+	if mouse_check_button_pressed(mb_right){
+		buildmode = false;
+	}
+	if mouse_check_button_pressed(mb_left){
+			if space = true{
+				buildmode = false;
+				instance_destroy(Test);
+					buffer_seek(buffer, buffer_seek_start, 0);
+					buffer_write(buffer, buffer_u8, networkEvents.building);
+					buffer_write(buffer, buffer_u8, 1); //Building type (building.Generic)
+					buffer_write(buffer, buffer_u16, mouse_x);
+					buffer_write(buffer, buffer_u16, mouse_y);
+					network_send_packet(socket, buffer, buffer_tell(buffer));
+			}
+	}	
 }
+
+if keyboard_check_pressed(ord(1)){
+	buildmode = true;
+	Test = instance_create_layer(-10,-10,"instances_1",objBuilding);
+}
+
 if mouse_check_button_released(mb_left){
 		buffer_seek(buffer, buffer_seek_start, 0);
 		buffer_write(buffer, buffer_u8, networkEvents.shoot); //message ID
