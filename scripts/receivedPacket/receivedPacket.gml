@@ -35,8 +35,8 @@ switch(msgid){
 		var client = buffer_read(buffer, buffer_u16);
 		var xx = buffer_read(buffer, buffer_u16);
 		var yy = buffer_read(buffer, buffer_u16);
-		pointx = buffer_read(buffer, buffer_u16);
-		pointy = buffer_read(buffer, buffer_u16);
+		var pointx = buffer_read(buffer, buffer_u16);
+		var pointy = buffer_read(buffer, buffer_u16);
 		var bullet = buffer_read(buffer, buffer_u16);
 
 		
@@ -44,8 +44,8 @@ switch(msgid){
 
 		var slug = instance_create_layer(xx,yy,"Instances_1",objBullet);
 		with slug{
-			image_angle = point_direction(xx, yy, other.pointx, other.pointy);
-			move_towards_point(other.pointx,other.pointy,move_speed_this_frame)
+			image_angle = point_direction(xx, yy, pointx, pointy);
+			move_towards_point(pointx,pointy,move_speed_this_frame)
 			ID = client;
 			bulletID = bullet;
 		}
@@ -77,13 +77,26 @@ switch(msgid){
 	case networkEvents.building:
 		
 		var building = buffer_read(buffer, buffer_u8);
-		x_pos = buffer_read(buffer, buffer_u16);
-		y_pos = buffer_read(buffer, buffer_u16);
+		var x_pos = buffer_read(buffer, buffer_u16);
+		var y_pos = buffer_read(buffer, buffer_u16);
+		var bldingID = buffer_read(buffer, buffer_u16);
 		
-		instance_create_layer(x_pos,y_pos,"instances_1",objBuilding);
+		var building = instance_create_layer(x_pos,y_pos,"instances_1",objBuilding);
+		building.buildingID = bldingID
 	
 	break;
 
+
+	case networkEvents.buildingDestroy:
+		
+		var bldingID = buffer_read(buffer, buffer_u16);
+		with objBuilding {
+			if buildingID = bldingID{
+				instance_destroy(self);	
+			}
+		}
+	
+	break;
 	
 	case networkEvents.connect:
 		var 

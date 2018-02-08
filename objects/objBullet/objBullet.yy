@@ -5,16 +5,6 @@
     "name": "objBullet",
     "eventList": [
         {
-            "id": "cde1b7b2-2ce7-4b9c-987c-3690214b586c",
-            "modelName": "GMEvent",
-            "mvc": "1.0",
-            "IsDnD": false,
-            "collisionObjectId": "00000000-0000-0000-0000-000000000000",
-            "enumb": 77,
-            "eventtype": 8,
-            "m_owner": "5d4fd3d0-a982-48df-ba9f-72db3370843c"
-        },
-        {
             "id": "fbc6f3c7-6132-491c-a47a-ee64a80f96e4",
             "modelName": "GMEvent",
             "mvc": "1.0",

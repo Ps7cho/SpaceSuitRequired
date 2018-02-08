@@ -12,7 +12,10 @@ if !buildmode{
 	with (Test){
 		var space = place_empty(mouse_x,mouse_y);
 	}
-	if space {
+	
+	var dis = point_distance(object_Character.x,object_Character.y,mouse_x,mouse_y);
+	
+	if space and dis < buildDistance {
 		cursor_sprite = sprBuidlingCheck;
 	}else{
 		cursor_sprite = sprBuidlingCheck1;
