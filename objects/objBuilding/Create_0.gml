@@ -1,2 +1,2 @@
 /// @description variables
-bldingID = -1;
+buildingID = -1;
