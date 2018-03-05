@@ -18,6 +18,7 @@ switch(msgid){
 		
 		if(ds_map_exists(clientmap, string(client))){// [note] check if its your position
 			var clientObject = clientmap[? string(client)];
+			
 			clientObject.tim = 0;
 			clientObject.prx = clientObject.x;
 			clientObject.pry = clientObject.y;
@@ -76,13 +77,26 @@ switch(msgid){
 	
 	case networkEvents.building:
 		
-		var building = buffer_read(buffer, buffer_u8);
+		var buildingType = buffer_read(buffer, buffer_u8); //Building type (building.Generic)
 		var x_pos = buffer_read(buffer, buffer_u16);
 		var y_pos = buffer_read(buffer, buffer_u16);
 		var bldingID = buffer_read(buffer, buffer_u16);
+		var team = buffer_read(buffer, buffer_s8);
+		var credits = buffer_read(buffer, buffer_u16);
 		
-		var building = instance_create_layer(x_pos,y_pos,"instances_1",objBuilding);
+		blding = scrBuildingPicker(buildingType); //find the type of building that was placed
+		
+		if buildingType > 100 {
+			var resource = instance_create_layer(x_pos,y_pos,"Resources",blding);
+			resource.buildingID = bldingID
+		}
+		var building = instance_create_layer(x_pos,y_pos,"Buildings",blding);
 		building.buildingID = bldingID
+		building.Team = team;
+		
+		if object_Character.Team = team {
+			objClient.Credits = credits;	
+		}
 	
 	break;
 
@@ -98,15 +112,55 @@ switch(msgid){
 	
 	break;
 	
+	case networkEvents.robot:
+		
+		var xx = buffer_read(buffer, buffer_u16);
+		var yy = buffer_read(buffer, buffer_u16);
+		var team = buffer_read(buffer, buffer_s8);
+		var target = buffer_read(buffer, buffer_s8);
+		var ID = buffer_read(buffer, buffer_u16);
+		var create = buffer_read(buffer, buffer_s8);
+		
+		if create = 1{
+			robot = instance_create_layer(xx,yy,"Buildings_1",objRobot);
+			robot.target = scrBuildingPicker(target);
+			robot.ID = ID;
+			robot.Team = team;
+		}else if create = 0{
+			//Update Postion (but we aren't doing that with robots)
+		}else{
+			with objRobot{
+				if self.ID = ID
+				instance_destroy();
+			}
+		}
+	
+	break;
+	
+	case networkEvents.credits:
+		
+		var team = buffer_read(buffer, buffer_s8);
+		var credits = buffer_read(buffer, buffer_u16);
+		
+		if object_Character.Team = team {
+			objClient.Credits = credits;	
+		}	
+	break;
+
+	
 	case networkEvents.connect:
 		var 
 		client = buffer_read(buffer, buffer_u16),
 		startx = buffer_read(buffer, buffer_u16),
-		starty = buffer_read(buffer, buffer_u16);
+		starty = buffer_read(buffer, buffer_u16),
+		team = buffer_read(buffer, buffer_u8),
+		credits = buffer_read(buffer, buffer_u16);
 		
 		if MyID = -1 {
 			var l = instance_create_layer(startx, starty, "Instances_1", object_Character);
 			l.CharacterID = client;
+			l.Team = team;
+			objClient.Credits = credits;
 			clientmap[? string(client)] =l;
 			MyID = client;
 		}else{

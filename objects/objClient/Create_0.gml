@@ -6,7 +6,7 @@ var localhost = "192.168.1.65";
 var port = 6112;
 
 socket = network_create_socket(type);
-isConnected = network_connect(socket, ipaddress, port);
+isConnected = network_connect(socket, localhost, port);
 
 
 var size = 256;
@@ -31,6 +31,8 @@ bulletSpeed = 4000;
 buildmode = false;
 buildDistance = 800;
 
+Credits = -1;
+
 
 //network events as enumerators
 enum networkEvents {
@@ -45,6 +47,8 @@ enum networkEvents {
 	position,
 	building,
 	buildingDestroy,
+	robot,
+	credits,
 	connect,
 	disconnect
 }
