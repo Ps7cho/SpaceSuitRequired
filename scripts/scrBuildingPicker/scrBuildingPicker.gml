@@ -18,6 +18,21 @@ if bld = 1 {
 }else if bld = 7{
 	return objPlasmaSupply;
 	
+	//Walls
+}else if bld = 50{
+	return objWall;
+}else if bld = 51{
+	return objWallLeft;
+}else if bld = 52{
+	return objWallRight;
+}else if bld = 53{
+	return objCliffBack;
+}else if bld = 54{
+	return objWallSideLeft;
+}else if bld = 55{
+	return objWallSide;
+	
+	
 	
 	//Resources 
 }else if bld = 101{

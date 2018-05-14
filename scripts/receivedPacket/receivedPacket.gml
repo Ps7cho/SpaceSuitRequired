@@ -9,21 +9,22 @@ switch(msgid){
 		Ping = current_time - time;
 	break;
 	
+	
+	
+
 	//player location
-	case networkEvents.position:
+	case networkEvents.input:
 		
 		var client = buffer_read(buffer, buffer_u16);
-		var xx = buffer_read(buffer, buffer_u16);
-		var yy = buffer_read(buffer, buffer_u16);
+		var key = buffer_read(buffer, buffer_u8);
+		var pressed = buffer_read(buffer, buffer_bool);
 		
-		if(ds_map_exists(clientmap, string(client))){// [note] check if its your position
+		if(ds_map_exists(clientmap, string(client))){
 			var clientObject = clientmap[? string(client)];
-			
-			clientObject.tim = 0;
-			clientObject.prx = clientObject.x;
-			clientObject.pry = clientObject.y;
-			clientObject.tox = xx;
-			clientObject.toy = yy;
+				with clientObject {
+					movement_inputs[key] = pressed;
+				}
+
 			
 			}else{
 				var l = instance_create_layer(xx, yy, "Instances_1", object_Character_1);
@@ -31,6 +32,28 @@ switch(msgid){
 			}
 	break;
 	
+	case networkEvents.position:
+		
+		var client = buffer_read(buffer, buffer_u16);
+		var xx = buffer_read(buffer, buffer_u16);
+		var yy = buffer_read(buffer, buffer_u16);
+		var distance = buffer_read(buffer, buffer_u8);
+
+		if(ds_map_exists(clientmap, string(client))){
+			var clientObject = clientmap[? string(client)];
+			
+			with clientObject{
+				if distance_to_point(xx,yy) > distance{ // server determines the distance 
+					object_Character.x = xx;
+					object_Character.y = yy;
+					//increase_distance();
+				}
+			}
+			
+		}
+			
+	break;
+
 	case networkEvents.shoot:
 	
 		var client = buffer_read(buffer, buffer_u16);
@@ -122,13 +145,16 @@ switch(msgid){
 		var create = buffer_read(buffer, buffer_s8);
 		
 		if create = 1{
-			robot = instance_create_layer(xx,yy,"Buildings_1",objRobot);
-			robot.target = scrBuildingPicker(target);
+			robot = instance_create_layer(xx,yy,"Robots",objRobot);
+			robot.target = instance_nearest(robot.x,robot.y,scrBuildingPicker(target));
+			if instance_exists(scrBuildingPicker(target)){
+				robot.image_index = floor(point_direction(xx,yy,robot.target.x,robot.target.y)/22.5); 
+			}
 			robot.ID = ID;
 			robot.Team = team;
 		}else if create = 0{
 			//Update Postion (but we aren't doing that with robots)
-		}else{
+		}else if create = -1 {
 			with objRobot{
 				if self.ID = ID
 				instance_destroy();
@@ -170,7 +196,7 @@ switch(msgid){
 			}
 	break;
 	
-	//Client Disconnect
+//Client Disconnect
 	case networkEvents.disconnect: 
 		var client = buffer_read(buffer, buffer_u16);
 		var clientObject = clientmap[? string(client)];

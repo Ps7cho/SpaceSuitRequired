@@ -1,7 +1,7 @@
 /// send Packets for our client
 
-global.seconds_passed = delta_time/1000000;
 
+global.seconds_passed = delta_time/1000000;
 
 //stop shooting
 if mouse_check_button_released(mb_left){
@@ -36,7 +36,7 @@ if !buildmode{
 				if spot and dis < buildDistance {
 					buildmode = false;
 					Snap = noone;
-					layer_destroy_instances("Buildings_1");
+					layer_destroy_instances("TempBuildings");
 				
 					buffer_seek(buffer, buffer_seek_start, 0);
 					buffer_write(buffer, buffer_u8, networkEvents.building);
@@ -51,7 +51,7 @@ if !buildmode{
 				if checkspace = true and dis < buildDistance{
 					buildmode = false;
 					Snap = noone;
-					layer_destroy_instances("Buildings_1");
+					layer_destroy_instances("TempBuildings");
 				
 						buffer_seek(buffer, buffer_seek_start, 0);
 						buffer_write(buffer, buffer_u8, networkEvents.building);
@@ -68,7 +68,7 @@ if !buildmode{
 
 if keyboard_check_pressed(ord(2)){
 	buildmode = true;
-	Test = instance_create_layer(-10,-10,"Buildings_1",objMiner);
+	Test = instance_create_layer(-10,-10,"TempBuildings",objMiner);
 	buildingID = 1;
 	sprite = sprMineralExtrctor;
 	Snap = objMineral;
@@ -76,7 +76,7 @@ if keyboard_check_pressed(ord(2)){
 
 if keyboard_check_pressed(ord(1)){
 	buildmode = true;
-	Test = instance_create_layer(-10,-10,"Buildings_1",objBase0);
+	Test = instance_create_layer(-10,-10,"TempBuildings",objBase0);
 	buildingID = 2;
 	sprite = sprBase0;
 	Snap = noone;
@@ -84,7 +84,7 @@ if keyboard_check_pressed(ord(1)){
 
 if keyboard_check_pressed(ord(3)){
 	buildmode = true;
-	Test = instance_create_layer(-10,-10,"Buildings_1",objPlasmaProducer);
+	Test = instance_create_layer(-10,-10,"TempBuildings",objPlasmaProducer);
 	buildingID = 6;
 	sprite = sprPlasmaProducer;
 	Snap = noone;
@@ -92,7 +92,7 @@ if keyboard_check_pressed(ord(3)){
 
 if keyboard_check_pressed(ord(4)){
 	buildmode = true;
-	Test = instance_create_layer(-10,-10,"Buildings_1",objPlasmaSupply);
+	Test = instance_create_layer(-10,-10,"TempBuildings",objPlasmaSupply);
 	buildingID = 7;
 	sprite = sprPlazmaSupply;
 	Snap = noone;
@@ -100,7 +100,7 @@ if keyboard_check_pressed(ord(4)){
 
 if keyboard_check_pressed(ord(5)){
 	buildmode = true;
-	Test = instance_create_layer(-10,-10,"Buildings_1",objBase3);
+	Test = instance_create_layer(-10,-10,"TempBuildings",objBase3);
 	buildingID = 5;
 	sprite = sprBase3;
 	Snap = noone;
