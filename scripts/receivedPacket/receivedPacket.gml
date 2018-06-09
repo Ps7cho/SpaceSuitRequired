@@ -144,17 +144,17 @@ switch(msgid){
 		var ID = buffer_read(buffer, buffer_u16);
 		var create = buffer_read(buffer, buffer_s8);
 		
-		if create = 1{
+		if create = 1{	//create
 			robot = instance_create_layer(xx,yy,"Robots",objRobot);
 			robot.target = instance_nearest(robot.x,robot.y,scrBuildingPicker(target));
 			if instance_exists(scrBuildingPicker(target)){
 				robot.image_index = floor(point_direction(xx,yy,robot.target.x,robot.target.y)/22.5); 
 			}
-			robot.ID = ID;
+			robot.ID = ID; 
 			robot.Team = team;
-		}else if create = 0{
+		}else if create = 0{	//update
 			//Update Postion (but we aren't doing that with robots)
-		}else if create = -1 {
+		}else if create = -1 {	//destroy
 			with objRobot{
 				if self.ID = ID
 				instance_destroy();
